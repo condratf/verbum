@@ -46,7 +46,7 @@ export default function CreditsPage() {
 
       <div className="flex justify-between gap-2 w-full">
 
-        <div className="w-full pr-10">
+        <div className="w-full min-w-[350px] pr-10">
           <h3 className="mb-5 font-semibold">Credits</h3>
 
           <SelectableCard

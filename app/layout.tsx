@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Layout } from "@/components/layout";
+import { ModalProvider } from "@/services/modal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
   student: React.ReactNode;
 }>) {
   //TODO:
-  const isProfessor = true;
+  const isProfessor = false;
 
   return (
     <html lang="en">
@@ -41,9 +42,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased no-scrollbar`}
       >
-        <Layout>
-          {isProfessor ? professor : student}
-        </Layout>
+        <ModalProvider>
+          <Layout role={isProfessor ? 'professor' : 'student'}>
+            {isProfessor ? professor : student}
+          </Layout>
+        </ModalProvider>
       </body>
     </html>
   );

@@ -6,13 +6,16 @@ import { Sidebar, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarH
 import { Separator } from '@radix-ui/react-separator';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../ui/breadcrump';
 import { LanguagesIcon } from 'lucide-react';
-import path from 'path';
 import { Icon } from '../common';
 
-export const WithSidebar: FC<PropsWithChildren> = ({ children }) => {
+interface AppSidebarProps {
+  role?: 'student' | 'professor'
+}
+
+export const WithSidebar: FC<PropsWithChildren<AppSidebarProps>> = ({ children, role = 'student' }) => {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar role={role} />
       <div className='w-full p-5 no-scrollbar'>
         <AppHeader />
 
@@ -24,14 +27,21 @@ export const WithSidebar: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-const AppSidebar: FC = ({ }) => {
-  const items = [
+const AppSidebar: FC<AppSidebarProps> = ({ role = 'student' }) => {
+  const professorItems = [
     { title: 'Home', url: '/', icon: () => <Icon icon="home" /> },
     { title: 'Credits', url: '/credits', icon: () => <Icon icon="account_balance" /> },
     { title: 'Profile', url: '/profile', icon: () => <Icon icon="account_box" /> },
     { title: 'Students', url: '/students', icon: () => <Icon icon="groups" /> },
     { title: 'Schedule', url: '/schedule', icon: () => <Icon icon="calendar_month" /> },
   ];
+  const studentItems = [
+    { title: 'Home', url: '/', icon: () => <Icon icon="home" /> },
+    { title: 'Lessons', url: '/lessons', icon: () => <Icon icon="book" /> },
+    { title: 'Credits', url: '/credits', icon: () => <Icon icon="account_balance" /> },
+    { title: 'Schedule a lesson', url: '/schedule', icon: () => <Icon icon="calendar_month" /> },
+  ];
+
   return (
     <Sidebar collapsible='icon' >
       <SidebarHeader >
@@ -42,7 +52,7 @@ const AppSidebar: FC = ({ }) => {
         <SidebarGroupLabel>Application</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {items.map((item) => (
+            {(role === 'professor' ? professorItems : studentItems).map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url}>

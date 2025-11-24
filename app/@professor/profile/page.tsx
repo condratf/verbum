@@ -94,7 +94,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {languages?.map((language, index) => (
-                <div key={language.name} className="border p-4 rounded-lg">
+                <div key={language.name} className=" p-4 rounded-lg">
                   <div className="text-gray-900 font-medium">{language.name}</div>
 
                   <div className="pt-6">
