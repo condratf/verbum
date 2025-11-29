@@ -1,12 +1,14 @@
 'use client';
 import { FC, PropsWithChildren } from 'react'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image';
 
 import { Sidebar, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '../ui/sidebar'
 import { Separator } from '@radix-ui/react-separator';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../ui/breadcrump';
 import { LanguagesIcon } from 'lucide-react';
 import { Icon } from '../common';
+import logo from '@/assets/logo.png'
 
 interface AppSidebarProps {
   role?: 'student' | 'professor'
@@ -49,9 +51,11 @@ const AppSidebar: FC<AppSidebarProps> = ({ role = 'student' }) => {
       </SidebarHeader>
 
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>
+          <div className='h-20' />
+        </SidebarGroupLabel>
         <SidebarGroupContent>
-          <SidebarMenu>
+          <SidebarMenu className='mt-5'>
             {(role === 'professor' ? professorItems : studentItems).map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>

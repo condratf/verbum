@@ -28,13 +28,17 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   ]
 
   const dayButtonVariants = cva(
-    'h-16 flex items-center justify-center text-lg font-medium rounded-full transition-all',
+    'h-7 w-8 flex items-center justify-center text-lg font-medium rounded-md transition-all cursor-pointer',
     {
       variants: {
         state: {
-          selected: 'bg-blue-100 text-blue-600 ring-2 ring-blue-400',
+          selected: 'bg-blue-100/50 text-blue-500 ring-2 ring-blue-200',
           today: 'bg-blue-50 text-blue-600',
           default: 'text-gray-700 hover:bg-gray-100',
+        },
+        disabled: {
+          true: 'opacity-50 cursor-not-allowed',
+          false: 'cursor-pointer',
         },
       },
       defaultVariants: {
@@ -44,7 +48,7 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   )
 
   const durationButtonVariants = cva(
-    'px-6 py-2 rounded-full text-sm font-medium transition-all',
+    'p-2 rounded-lg text-xs font-medium transition-all',
     {
       variants: {
         selected: {
@@ -59,7 +63,7 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   )
 
   const timeButtonVariants = cva(
-    'px-4 py-3 text-sm font-medium rounded-lg transition-all',
+    'p-1 text-sm font-medium rounded-lg transition-all',
     {
       variants: {
         selected: {
@@ -107,20 +111,22 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
 
   const days = []
   for (let i = 0; i < adjustedStartDay; i++) {
-    days.push(<div key={`empty-${i}`} className="h-16" />)
+    days.push(<div key={`empty-${i}`} className="h-10" />)
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
     const isSelected = isSameDay(selectedDate, date)
     const isTodayDate = isToday(date)
+    const isDisabled = date <= new Date();
     const state = isSelected ? 'selected' : isTodayDate ? 'today' : 'default'
 
     days.push(
       <button
         key={day}
         onClick={() => setSelectedDate(date)}
-        className={dayButtonVariants({ state })}
+        className={dayButtonVariants({ state, disabled: isDisabled })}
+        disabled={isDisabled}
       >
         {day}
       </button>
@@ -139,9 +145,9 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   }, [selectedTime])
 
   return (
-    <div className={cn('flex lg:flex-row flex-col gap-8 p-8 bg-white min-h-screen')}>
+    <div className={cn('flex lg:flex-row flex-col gap-8 mb-10 bg-white items-start justify-center')}>
       {/* Calendar Section */}
-      <div className="flex-1 max-w-2xl min-w-[320px]">
+      <div className="flex-1 min-w-[320px] max-w-[400px] max-h-[400px]">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-semibold text-gray-800">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
@@ -162,9 +168,9 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-4 mb-4">
+        <div className="grid grid-cols-7 gap-2 mb-4 -ml-5">
           {dayNames.map(day => (
-            <div key={day} className="text-center text-sm font-medium text-gray-500">
+            <div key={day} className="text-center text-xs font-medium text-gray-500">
               {day}
             </div>
           ))}
@@ -173,6 +179,22 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
         <div className="grid grid-cols-7 gap-4">
           {days}
         </div>
+        {selectedDate && selectedTime && (
+          <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h4 className="font-semibold text-gray-800 mb-2">Selected:</h4>
+            <p className="text-sm text-gray-700">
+              {selectedDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+            <p className="text-sm text-gray-700">
+              Time: {selectedTime} ({classDuration} minutes)
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Time Selection Section */}
@@ -213,22 +235,7 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
           )}
         </div>
 
-        {selectedDate && selectedTime && (
-          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h4 className="font-semibold text-gray-800 mb-2">Selected:</h4>
-            <p className="text-sm text-gray-700">
-              {selectedDate.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </p>
-            <p className="text-sm text-gray-700">
-              Time: {selectedTime} ({classDuration} minutes)
-            </p>
-          </div>
-        )}
+
       </div>
     </div>
   )

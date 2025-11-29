@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Layout } from "@/components/layout";
 import { ModalProvider } from "@/services/modal";
+import { createClient } from "@/utils/supabase/server";
+import { getCurrentUserWithRole } from "@/lib/user";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,17 +22,21 @@ export const metadata: Metadata = {
   description: "language school",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  auth,
   professor,
   student,
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
   professor: React.ReactNode;
   student: React.ReactNode;
 }>) {
-  //TODO:
-  const isProfessor = false;
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const currUser = await getCurrentUserWithRole()
 
   return (
     <html lang="en">
@@ -43,9 +49,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased no-scrollbar`}
       >
         <ModalProvider>
-          <Layout role={isProfessor ? 'professor' : 'student'}>
-            {isProfessor ? professor : student}
-          </Layout>
+          {!user ? auth : (
+            <Layout role={currUser?.role || 'student'}>
+              {currUser?.role === 'professor' ? professor : student}
+            </Layout>
+          )}
         </ModalProvider>
       </body>
     </html>

@@ -39,13 +39,12 @@ export default function CreditsPage() {
   return (
     <div className="p-4">
       <div className="flex items-center justify-center gap-2 mb-4 w-full">
-        <Button onClick={() => handleChangeMonth(currMonth - 1)}> <Icon icon="chevron_left" /> </Button>
-        <span className="font-bold">{getMonthName(currMonth)}</span>
-        <Button onClick={() => handleChangeMonth(currMonth + 1)}> <Icon icon="chevron_right" /> </Button>
+        <Button variant="secondary" size="sm" onClick={() => handleChangeMonth(currMonth - 1)}> <Icon icon="chevron_left" /> </Button>
+        <span className="font-bold w-[90px] text-center">{getMonthName(currMonth)}</span>
+        <Button variant="secondary" size="sm" onClick={() => handleChangeMonth(currMonth + 1)}> <Icon icon="chevron_right" /> </Button>
       </div>
 
-      <div className="flex justify-between gap-2 w-full">
-
+      <div className="flex md:flex-row flex-col justify-between gap-2 w-full">
         <div className="w-full min-w-[350px] pr-10">
           <h3 className="mb-5 font-semibold">Credits</h3>
 

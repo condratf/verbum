@@ -1,4 +1,4 @@
-import { Student } from "@/app/models";
+import { Student } from "@/models";
 import { SearchInput, Table } from "@/components/common";
 import { Button } from "@/components/ui/button";
 
