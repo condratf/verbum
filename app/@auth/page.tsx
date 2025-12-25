@@ -50,7 +50,7 @@ const handleSignup = async (_: any, formData: FormData) => {
   // Sign up with role in metadata
   const { error } = await supabase.auth.signUp({ 
     email, 
-    password, 
+    password,
     options: { 
       data: { role } 
     } 

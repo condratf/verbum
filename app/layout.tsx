@@ -39,7 +39,7 @@ export default async function RootLayout({
   const currUser = await getCurrentUserWithRole()
 
   return (
-    <html lang="en">
+    <html lang="en" className="no-scrollbar">
       <link
         precedence="default"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"

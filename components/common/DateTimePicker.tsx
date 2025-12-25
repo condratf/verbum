@@ -48,7 +48,7 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   )
 
   const durationButtonVariants = cva(
-    'p-2 rounded-lg text-xs font-medium transition-all',
+    'p-2 rounded-lg text-xs font-medium transition-all cursor-pointer',
     {
       variants: {
         selected: {
@@ -63,7 +63,7 @@ export const DateTimePicker: FC<{ onSelectDatetime?: (datetime: Date) => void }>
   )
 
   const timeButtonVariants = cva(
-    'p-1 text-sm font-medium rounded-lg transition-all',
+    'p-1 text-sm font-medium rounded-lg transition-all cursor-pointer',
     {
       variants: {
         selected: {
